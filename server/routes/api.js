@@ -26,4 +26,7 @@ router.route('/segments')
 router.route('/segments/:id')
     .put(protect, adminOnly, updateSegment);
 
+// Invoice Routes (delegated to dedicated router)
+router.use('/invoices', require('./invoiceRoutes'));
+
 module.exports = router;

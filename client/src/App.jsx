@@ -4,6 +4,7 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Segments from './pages/Segments';
+import Invoices from './pages/Invoices';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -38,6 +39,7 @@ function App() {
         <Route path="/" element={user ? <Layout user={user} onLogout={handleLogout} /> : <Navigate to="/login" />}>
           <Route index element={<Dashboard user={user} />} />
           <Route path="segments" element={<Segments user={user} />} />
+          <Route path="invoices" element={<Invoices user={user} />} />
         </Route>
       </Routes>
     </Router>

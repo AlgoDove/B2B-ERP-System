@@ -1,11 +1,12 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Settings, LogOut, Users, Box, Building2 } from 'lucide-react';
+import { LayoutDashboard, Settings, LogOut, Users, Box, Building2, FileText } from 'lucide-react';
 
 export default function Layout({ user, onLogout }) {
     const location = useLocation();
 
     const navItems = [
         { label: 'Customers', path: '/', icon: Users },
+        { label: 'Invoices', path: '/invoices', icon: FileText },
         ...(user?.role === 'admin' ? [{ label: 'Segment Rules', path: '/segments', icon: Settings }] : [])
     ];
 
@@ -78,10 +79,10 @@ export default function Layout({ user, onLogout }) {
                 <header className="bg-white border-b border-slate-200 px-8 py-5 flex justify-between items-center shadow-sm z-0">
                     <div>
                         <h2 className="text-2xl font-black text-slate-800 tracking-tight">
-                            {location.pathname === '/' ? 'Customer Management' : 'Segment Rules Configuration'}
+                            {location.pathname === '/' ? 'Customer Management' : location.pathname === '/invoices' ? 'Invoice Management' : 'Segment Rules Configuration'}
                         </h2>
                         <p className="text-sm font-medium text-slate-500 mt-1">
-                            {location.pathname === '/' ? 'View and manage customer data and segmentation.' : 'Adjust global segment bounds and discount rules.'}
+                            {location.pathname === '/' ? 'View and manage customer data and segmentation.' : location.pathname === '/invoices' ? 'Create, manage and track customer invoices.' : 'Adjust global segment bounds and discount rules.'}
                         </p>
                     </div>
 
