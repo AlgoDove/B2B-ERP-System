@@ -5,6 +5,9 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Segments from './pages/Segments';
 import Invoices from './pages/Invoices';
+import InventoryDashboard from './pages/InventoryDashboard';
+import SupplierManagement from './pages/SupplierManagement';
+import UserManagement from './pages/UserManagement';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -40,6 +43,9 @@ function App() {
           <Route index element={<Dashboard user={user} />} />
           <Route path="segments" element={<Segments user={user} />} />
           <Route path="invoices" element={<Invoices user={user} />} />
+          <Route path="inventory" element={<InventoryDashboard user={user} />} />
+          <Route path="suppliers" element={<SupplierManagement user={user} />} />
+          <Route path="users" element={<UserManagement user={user} />} />
         </Route>
       </Routes>
     </Router>
