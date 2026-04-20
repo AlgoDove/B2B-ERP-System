@@ -1,7 +1,14 @@
+const mongoose = require('mongoose');
 const Supplier = require('../models/Supplier');
+
+const isDbReady = () => mongoose.connection.readyState === 1;
 
 const createSupplier = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const supplier = await Supplier.create(req.body);
         res.status(201).json(supplier);
     } catch (error) {
@@ -11,6 +18,10 @@ const createSupplier = async (req, res) => {
 
 const getSuppliers = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.json([]);
+        }
+
         const suppliers = await Supplier.find({}).sort({ createdAt: -1 });
         res.json(suppliers);
     } catch (error) {
@@ -20,6 +31,10 @@ const getSuppliers = async (req, res) => {
 
 const updateSupplier = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const supplier = await Supplier.findByIdAndUpdate(
             req.params.id,
             req.body,
@@ -38,6 +53,10 @@ const updateSupplier = async (req, res) => {
 
 const deleteSupplier = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const supplier = await Supplier.findByIdAndDelete(req.params.id);
 
         if (!supplier) {

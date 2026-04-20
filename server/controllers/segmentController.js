@@ -1,9 +1,16 @@
+const mongoose = require('mongoose');
 const SegmentThresholds = require('../models/SegmentThresholds');
+
+const isDbReady = () => mongoose.connection.readyState === 1;
 
 // GET /api/segments
 // Access: Private (Admin & Sales)
 const getSegments = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.json([]);
+        }
+
         const segments = await SegmentThresholds.find().sort({ minPurchase: 1 });
         res.json(segments);
     } catch (error) {
@@ -15,6 +22,10 @@ const getSegments = async (req, res) => {
 // Access: Private (Admin only)
 const updateSegment = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const { minPurchase, maxPurchase, baseDiscount, incrementPerAmount, incrementUnit } = req.body;
 
         const segment = await SegmentThresholds.findById(req.params.id);

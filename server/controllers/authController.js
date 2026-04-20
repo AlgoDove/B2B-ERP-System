@@ -2,6 +2,9 @@ const Admin = require('../models/Admin');
 const SalesStaff = require('../models/SalesStaff');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { getMockDatabase } = require('../config/mockDb');
+
+let mockDb = null;
 
 const generateToken = (id, role, username) => {
     return jwt.sign({ id, role, username }, process.env.JWT_SECRET, {
@@ -9,13 +12,27 @@ const generateToken = (id, role, username) => {
     });
 };
 
-const findExistingUser = async (username) => {
-    const [admin, staff] = await Promise.all([
-        Admin.findOne({ username }),
-        SalesStaff.findOne({ username })
-    ]);
+const initMockDb = async () => {
+    if (!mockDb) {
+        mockDb = await getMockDatabase();
+    }
+    return mockDb;
+};
 
-    return admin || staff;
+const findExistingUser = async (username) => {
+    try {
+        const [admin, staff] = await Promise.all([
+            Admin.findOne({ username }),
+            SalesStaff.findOne({ username })
+        ]);
+        return admin || staff;
+    } catch (error) {
+        // Fallback to mock database
+        const db = await initMockDb();
+        const admin = await db.findAdminByUsername(username);
+        const staff = await db.findSalesStaffByUsername(username);
+        return admin || staff;
+    }
 };
 
 const register = async (req, res) => {
@@ -40,10 +57,19 @@ const register = async (req, res) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         let created;
-        if (requestedRole === 'admin') {
-            created = await Admin.create({ username, passwordHash, role: 'admin' });
-        } else {
-            created = await SalesStaff.create({ username, passwordHash, role: 'sales_staff' });
+        try {
+            if (requestedRole === 'admin') {
+                created = await Admin.create({ username, passwordHash, role: 'admin' });
+            } else {
+                created = await SalesStaff.create({ username, passwordHash, role: 'sales_staff' });
+            }
+        } catch (dbError) {
+            const db = await initMockDb();
+            if (requestedRole === 'admin') {
+                created = await db.createAdmin({ username, passwordHash, role: 'admin' });
+            } else {
+                created = await db.createSalesStaff({ username, passwordHash, role: 'sales_staff' });
+            }
         }
 
         res.status(201).json({
@@ -79,7 +105,27 @@ const login = async (req, res) => {
             res.status(401).json({ message: 'Invalid username or password' });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        // Fallback to mock database if MongoDB is unavailable
+        try {
+            const db = await initMockDb();
+            let user = await db.findAdminByUsername(username);
+            if (!user) {
+                user = await db.findSalesStaffByUsername(username);
+            }
+
+            if (user && (await bcrypt.compare(password, user.passwordHash))) {
+                res.json({
+                    _id: user._id,
+                    username: user.username,
+                    role: user.role,
+                    token: generateToken(user._id, user.role, user.username),
+                });
+            } else {
+                res.status(401).json({ message: 'Invalid username or password' });
+            }
+        } catch (mockError) {
+            res.status(500).json({ message: 'Server error', error: error.message });
+        }
     }
 };
 

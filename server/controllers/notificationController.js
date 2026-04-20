@@ -1,7 +1,14 @@
+const mongoose = require('mongoose');
 const Notification = require('../models/Notification');
+
+const isDbReady = () => mongoose.connection.readyState === 1;
 
 const getNotifications = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.json([]);
+        }
+
         const notifications = await Notification.find({})
             .populate('productId', 'name sku')
             .sort({ createdAt: -1 });
@@ -14,6 +21,10 @@ const getNotifications = async (req, res) => {
 
 const markAsRead = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const notification = await Notification.findById(req.params.id);
         if (!notification) {
             return res.status(404).json({ message: 'Notification not found' });
@@ -30,6 +41,10 @@ const markAsRead = async (req, res) => {
 
 const markAllAsRead = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         await Notification.updateMany({ isRead: false }, { isRead: true });
         res.json({ message: 'All notifications marked as read' });
     } catch (error) {

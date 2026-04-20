@@ -1,5 +1,8 @@
+const mongoose = require('mongoose');
 const Admin = require('../models/Admin');
 const SalesStaff = require('../models/SalesStaff');
+
+const isDbReady = () => mongoose.connection.readyState === 1;
 
 const toUserDto = (record, source) => ({
     _id: record._id,
@@ -13,6 +16,10 @@ const toUserDto = (record, source) => ({
 
 const getUsers = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.json([]);
+        }
+
         const [admins, staff] = await Promise.all([
             Admin.find({}).select('username role createdAt').lean(),
             SalesStaff.find({}).select('username role createdAt').lean()

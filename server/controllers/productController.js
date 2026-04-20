@@ -4,6 +4,7 @@ const Supplier = require('../models/Supplier');
 const Notification = require('../models/Notification');
 
 const normalizeText = (value = '') => String(value).trim().toLowerCase();
+const isDbReady = () => mongoose.connection.readyState === 1;
 
 const validateSupplierAssignment = async (supplierId, productName) => {
     if (Array.isArray(supplierId)) {
@@ -62,6 +63,10 @@ const checkAndCreateNotification = async (product, force = false) => {
 
 const createProduct = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const supplierValidation = await validateSupplierAssignment(req.body.supplier, req.body.name);
         if (!supplierValidation.valid) {
             return res.status(400).json({ message: supplierValidation.message });
@@ -78,6 +83,10 @@ const createProduct = async (req, res) => {
 };
 
 const getProducts = async (req, res) => {
+    if (!isDbReady()) {
+        return res.json([]);
+    }
+
     try {
         const products = await Product.find({})
             .populate('supplier', 'name email')
@@ -91,6 +100,10 @@ const getProducts = async (req, res) => {
 
 const updateProduct = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const product = await Product.findById(req.params.id);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
@@ -126,6 +139,10 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const product = await Product.findByIdAndDelete(req.params.id);
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
@@ -140,6 +157,10 @@ const deleteProduct = async (req, res) => {
 
 const updateStock = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const { quantity, isDelta } = req.body;
         const parsedQty = Number(quantity);
 
@@ -177,6 +198,10 @@ const updateStock = async (req, res) => {
 };
 
 const getLowStockProducts = async (req, res) => {
+    if (!isDbReady()) {
+        return res.json([]);
+    }
+
     try {
         const products = await Product.find({ status: { $in: ['LowStock', 'OutOfStock'] } })
             .populate('supplier', 'name email')
