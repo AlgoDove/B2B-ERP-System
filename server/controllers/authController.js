@@ -13,6 +13,7 @@ const generateToken = (id, role, username) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 const initMockDb = async () => {
     if (!mockDb) {
         mockDb = await getMockDatabase();
@@ -86,6 +87,8 @@ const register = async (req, res) => {
 
 =======
 >>>>>>> parent of be8bcda (feat: integrate inventory module with stronger form validations)
+=======
+>>>>>>> parent of 8302d31 (merge: inventory integration and validation improvements)
 const login = async (req, res) => {
     const { username, password } = req.body;
 
