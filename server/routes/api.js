@@ -1,17 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { login, register } = require('../controllers/authController');
+const { login } = require('../controllers/authController');
 const { getCustomers, createCustomer, updateCustomer, deleteCustomer, addPurchase } = require('../controllers/customerController');
 const { getSegments, updateSegment } = require('../controllers/segmentController');
-const { getUsers } = require('../controllers/userController');
 const { protect, adminOnly } = require('../middleware/auth');
 
 // Auth Routes
 router.post('/auth/login', login);
-router.post('/auth/register', protect, adminOnly, register);
-
-// User Routes
-router.get('/users', protect, adminOnly, getUsers);
 
 // Customer Routes
 router.route('/customers')
@@ -30,11 +25,6 @@ router.route('/segments')
 
 router.route('/segments/:id')
     .put(protect, adminOnly, updateSegment);
-
-// Inventory Routes
-router.use('/suppliers', require('./supplierRoutes'));
-router.use('/products', require('./productRoutes'));
-router.use('/notifications', require('./notificationRoutes'));
 
 // Invoice Routes (delegated to dedicated router)
 router.use('/invoices', require('./invoiceRoutes'));

@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Settings, LogOut, Users, Building2, FileText, Package, Truck, Shield } from 'lucide-react';
+import { LayoutDashboard, Settings, LogOut, Users, Box, Building2, FileText } from 'lucide-react';
 
 export default function Layout({ user, onLogout }) {
     const location = useLocation();
@@ -7,40 +7,8 @@ export default function Layout({ user, onLogout }) {
     const navItems = [
         { label: 'Customers', path: '/', icon: Users },
         { label: 'Invoices', path: '/invoices', icon: FileText },
-        { label: 'Inventory', path: '/inventory', icon: Package },
-        ...(user?.role === 'admin' ? [{ label: 'Suppliers', path: '/suppliers', icon: Truck }] : []),
-        ...(user?.role === 'admin' ? [{ label: 'User Access', path: '/users', icon: Shield }] : []),
         ...(user?.role === 'admin' ? [{ label: 'Segment Rules', path: '/segments', icon: Settings }] : [])
     ];
-
-    const pageMeta = {
-        '/': {
-            title: 'Customer Management',
-            subtitle: 'View and manage customer data and segmentation.'
-        },
-        '/invoices': {
-            title: 'Invoice Management',
-            subtitle: 'Create, manage and track customer invoices.'
-        },
-        '/segments': {
-            title: 'Segment Rules Configuration',
-            subtitle: 'Adjust global segment bounds and discount rules.'
-        },
-        '/inventory': {
-            title: 'Inventory Management',
-            subtitle: 'Track products, stock status, and inventory alerts.'
-        },
-        '/suppliers': {
-            title: 'Supplier Management',
-            subtitle: 'Manage supplier records and product sourcing data.'
-        },
-        '/users': {
-            title: 'System User Management',
-            subtitle: 'Create and review admin and sales staff access.'
-        }
-    };
-
-    const currentPage = pageMeta[location.pathname] || pageMeta['/'];
 
     return (
         <div className="flex h-screen bg-[#F8FAFC] font-sans antialiased text-slate-800">
@@ -110,8 +78,12 @@ export default function Layout({ user, onLogout }) {
                 {/* Header */}
                 <header className="bg-white border-b border-slate-200 px-8 py-5 flex justify-between items-center shadow-sm z-0">
                     <div>
-                        <h2 className="text-2xl font-black text-slate-800 tracking-tight">{currentPage.title}</h2>
-                        <p className="text-sm font-medium text-slate-500 mt-1">{currentPage.subtitle}</p>
+                        <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+                            {location.pathname === '/' ? 'Customer Management' : location.pathname === '/invoices' ? 'Invoice Management' : 'Segment Rules Configuration'}
+                        </h2>
+                        <p className="text-sm font-medium text-slate-500 mt-1">
+                            {location.pathname === '/' ? 'View and manage customer data and segmentation.' : location.pathname === '/invoices' ? 'Create, manage and track customer invoices.' : 'Adjust global segment bounds and discount rules.'}
+                        </p>
                     </div>
 
                     <div className="flex items-center gap-4">

@@ -12,6 +12,7 @@ const generateToken = (id, role, username) => {
     });
 };
 
+<<<<<<< HEAD
 const initMockDb = async () => {
     if (!mockDb) {
         mockDb = await getMockDatabase();
@@ -83,6 +84,8 @@ const register = async (req, res) => {
     }
 };
 
+=======
+>>>>>>> parent of be8bcda (feat: integrate inventory module with stronger form validations)
 const login = async (req, res) => {
     const { username, password } = req.body;
 
@@ -129,4 +132,4 @@ const login = async (req, res) => {
     }
 };
 
-module.exports = { login, register };
+module.exports = { login };

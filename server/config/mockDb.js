@@ -96,6 +96,14 @@ class MockDatabase {
         return staff;
     }
 
+    async listAdmins() {
+        return Array.from(this.admins.values());
+    }
+
+    async listSalesStaff() {
+        return Array.from(this.salesStaff.values());
+    }
+
     // Customer methods
     async findAllCustomers() {
         return Array.from(this.customers.values());

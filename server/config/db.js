@@ -10,13 +10,16 @@ const connectDB = async () => {
       socketTimeoutMS: 5000,
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
-    return true;
   } catch (error) {
     console.error(`Error connecting to MongoDB: ${error.message}`);
+<<<<<<< HEAD
     console.warn('⚠️  Running in offline mode with mock database.');
     // Disable Mongoose entirely - we'll use mock DB instead
     mongoose.set('bufferCommands', false);
     return false;
+=======
+    process.exit(1);
+>>>>>>> parent of be8bcda (feat: integrate inventory module with stronger form validations)
   }
 };
 

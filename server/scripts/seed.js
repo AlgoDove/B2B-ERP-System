@@ -6,9 +6,6 @@ const Admin = require('../models/Admin');
 const SalesStaff = require('../models/SalesStaff');
 const Customer = require('../models/Customer');
 const SegmentThresholds = require('../models/SegmentThresholds');
-const Supplier = require('../models/Supplier');
-const Product = require('../models/Product');
-const Notification = require('../models/Notification');
 
 const seedData = async () => {
     try {
@@ -19,9 +16,6 @@ const seedData = async () => {
         await SalesStaff.deleteMany();
         await Customer.deleteMany();
         await SegmentThresholds.deleteMany();
-        await Supplier.deleteMany();
-        await Product.deleteMany();
-        await Notification.deleteMany();
 
         console.log('Inserting Segment Thresholds...');
         await SegmentThresholds.insertMany([
@@ -69,76 +63,6 @@ const seedData = async () => {
         }
 
         await Customer.insertMany(mockCustomers);
-
-        console.log('Inserting Inventory Suppliers & Products...');
-        const suppliers = await Supplier.create([
-            {
-                name: 'FreshMart Distributors',
-                email: 'ops@freshmart.test',
-                contactNumber: '+1-202-555-0101',
-                address: '42 Market Avenue, Seattle',
-                notes: 'Preferred produce supplier',
-                productName: 'Fresh Apples',
-                productQuantity: 150,
-                productPrice: 2.75
-            },
-            {
-                name: 'DairyLink Wholesale',
-                email: 'sales@dairylink.test',
-                contactNumber: '+1-202-555-0102',
-                address: '87 River Street, Portland',
-                notes: 'Cold-chain items',
-                productName: 'Milk Pack',
-                productQuantity: 40,
-                productPrice: 4.5
-            }
-        ]);
-
-        const products = await Product.create([
-            {
-                name: 'Fresh Apples',
-                sku: 'PROD-APL-001',
-                description: 'Premium export apples',
-                category: 'Produce',
-                price: 3.25,
-                quantity: 120,
-                reorderLevel: 30,
-                supplier: suppliers[0]._id
-            },
-            {
-                name: 'Milk Pack',
-                sku: 'PROD-MLK-001',
-                description: '1L family milk pack',
-                category: 'Dairy',
-                price: 5.2,
-                quantity: 12,
-                reorderLevel: 20,
-                supplier: suppliers[1]._id
-            },
-            {
-                name: 'Granola Box',
-                sku: 'PROD-GRN-001',
-                description: 'Mixed-grain breakfast granola',
-                category: 'Pantry',
-                price: 6.8,
-                quantity: 0,
-                reorderLevel: 10,
-                supplier: suppliers[0]._id
-            }
-        ]);
-
-        await Notification.create([
-            {
-                productId: products[1]._id,
-                type: 'LowStock',
-                message: `Product ${products[1].name} (SKU: ${products[1].sku}) is running low on stock (${products[1].quantity} left).`
-            },
-            {
-                productId: products[2]._id,
-                type: 'OutOfStock',
-                message: `Product ${products[2].name} (SKU: ${products[2].sku}) is out of stock.`
-            }
-        ]);
 
         console.log('Data Imported successfully!');
         process.exit();
