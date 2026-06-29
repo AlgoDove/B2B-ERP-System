@@ -1,10 +1,17 @@
+const mongoose = require('mongoose');
 const Customer = require('../models/Customer');
 const { applyDynamicSegmentation } = require('../services/segmentation');
+
+const isDbReady = () => mongoose.connection.readyState === 1;
 
 // GET /api/customers
 // Access: Private (Admin & Sales)
 const getCustomers = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.json([]);
+        }
+
         const customers = await Customer.find().sort({ totalPurchaseAmount: -1 }).populate('createdBy', 'username');
 
         // Apply dynamic segmentation to each customer
@@ -22,6 +29,10 @@ const getCustomers = async (req, res) => {
 // Access: Private (Admin only)
 const createCustomer = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const { name, email, phone, country } = req.body;
 
         const customer = new Customer({
@@ -45,6 +56,10 @@ const createCustomer = async (req, res) => {
 // Access: Private (Admin only)
 const updateCustomer = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const customer = await Customer.findById(req.params.id);
 
         if (customer) {
@@ -69,6 +84,10 @@ const updateCustomer = async (req, res) => {
 // Access: Private (Admin only)
 const deleteCustomer = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const customer = await Customer.findById(req.params.id);
 
         if (customer) {
@@ -86,6 +105,10 @@ const deleteCustomer = async (req, res) => {
 // Access: Private (Any internal component with auth)
 const addPurchase = async (req, res) => {
     try {
+        if (!isDbReady()) {
+            return res.status(503).json({ message: 'Database unavailable. Try again later.' });
+        }
+
         const { amount } = req.body;
 
         if (!amount || amount <= 0) {

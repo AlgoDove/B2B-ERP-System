@@ -4,10 +4,14 @@ import Layout from './components/Layout';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Segments from './pages/Segments';
+<<<<<<< HEAD
 import SalesDashboard from './pages/SalesDashboard';
 import BusinessAnalytics from './pages/BusinessAnalytics';
 import FinancialManagement from './pages/FinancialManagement';
 import AlertsInsights from './pages/AlertsInsights';
+=======
+import Invoices from './pages/Invoices';
+>>>>>>> 1b5318eae791a4d804eda7863bfc11dd6f8ffebc
 
 function App() {
   const [user, setUser] = useState(null);
@@ -59,10 +63,14 @@ function App() {
         <Route path="/" element={user ? <Layout user={user} onLogout={handleLogout} onRouteChange={handleRouteChange} /> : <Navigate to="/login" />}>
           <Route index element={<Dashboard user={user} />} />
           <Route path="segments" element={<Segments user={user} />} />
+<<<<<<< HEAD
           <Route path="sales" element={<SalesDashboard user={user} />} />
           <Route path="analytics" element={<BusinessAnalytics user={user} />} />
           <Route path="financial" element={<FinancialManagement user={user} />} />
           <Route path="alerts" element={<AlertsInsights user={user} />} />
+=======
+          <Route path="invoices" element={<Invoices user={user} />} />
+>>>>>>> 1b5318eae791a4d804eda7863bfc11dd6f8ffebc
         </Route>
       </Routes>
     </Router>

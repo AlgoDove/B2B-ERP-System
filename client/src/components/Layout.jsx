@@ -1,11 +1,16 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
+<<<<<<< HEAD
 import { LayoutDashboard, Settings, LogOut, Box, Building2, BarChart3, DollarSign, Bell } from 'lucide-react';
 import { useState, useEffect } from 'react';
+=======
+import { LayoutDashboard, Settings, LogOut, Users, Box, Building2, FileText } from 'lucide-react';
+>>>>>>> 1b5318eae791a4d804eda7863bfc11dd6f8ffebc
 
 export default function Layout({ user, onLogout, onRouteChange }) {
     const location = useLocation();
     const [expandedMenu, setExpandedMenu] = useState(null);
 
+<<<<<<< HEAD
     useEffect(() => {
         if (onRouteChange) {
             onRouteChange(location.pathname);
@@ -23,6 +28,13 @@ export default function Layout({ user, onLogout, onRouteChange }) {
             { label: 'Dashboard', path: '/', icon: LayoutDashboard },
             { label: 'Segment Rules', path: '/segments', icon: Settings }
           ];
+=======
+    const navItems = [
+        { label: 'Customers', path: '/', icon: Users },
+        { label: 'Invoices', path: '/invoices', icon: FileText },
+        ...(user?.role === 'admin' ? [{ label: 'Segment Rules', path: '/segments', icon: Settings }] : [])
+    ];
+>>>>>>> 1b5318eae791a4d804eda7863bfc11dd6f8ffebc
 
     return (
         <div className="flex h-screen bg-[#F8FAFC] font-sans antialiased text-slate-800">
@@ -93,6 +105,7 @@ export default function Layout({ user, onLogout, onRouteChange }) {
                 <header className="bg-white border-b border-slate-200 px-8 py-5 flex justify-between items-center shadow-sm z-0">
                     <div>
                         <h2 className="text-2xl font-black text-slate-800 tracking-tight">
+<<<<<<< HEAD
                             {location.pathname === '/' && 'Dashboard'}
                             {location.pathname === '/sales' && 'Sales & Billing'}
                             {location.pathname === '/analytics' && 'Business Analytics'}
@@ -107,6 +120,12 @@ export default function Layout({ user, onLogout, onRouteChange }) {
                             {location.pathname === '/financial' && 'Track expenses, manage costs, and monitor profitability'}
                             {location.pathname === '/alerts' && 'Monitor system alerts, track inventory warnings, and receive decision support'}
                             {location.pathname === '/segments' && 'Adjust global segment bounds and discount rules'}
+=======
+                            {location.pathname === '/' ? 'Customer Management' : location.pathname === '/invoices' ? 'Invoice Management' : 'Segment Rules Configuration'}
+                        </h2>
+                        <p className="text-sm font-medium text-slate-500 mt-1">
+                            {location.pathname === '/' ? 'View and manage customer data and segmentation.' : location.pathname === '/invoices' ? 'Create, manage and track customer invoices.' : 'Adjust global segment bounds and discount rules.'}
+>>>>>>> 1b5318eae791a4d804eda7863bfc11dd6f8ffebc
                         </p>
                     </div>
 
