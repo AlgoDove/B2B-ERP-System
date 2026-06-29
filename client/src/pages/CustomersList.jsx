@@ -136,7 +136,7 @@ export default function CustomersList({ user }) {
                                                 {customer.segment}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-sm font-semibold text-slate-900">₦{(customer.totalPurchaseAmount / 1000).toFixed(0)}k</td>
+                                        <td className="px-6 py-4 text-sm font-semibold text-slate-900">LKR {(customer.totalPurchaseAmount / 1000).toFixed(0)}k</td>
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
                                                 <button
@@ -224,7 +224,7 @@ export default function CustomersList({ user }) {
                             </div>
                             <div>
                                 <p className="text-xs font-bold text-slate-600 uppercase tracking-wider">Total Purchase Amount</p>
-                                <p className="text-sm text-slate-900">₦{(selectedCustomer.totalPurchaseAmount / 1000).toFixed(0)}k</p>
+                                <p className="text-sm text-slate-900">LKR {(selectedCustomer.totalPurchaseAmount / 1000).toFixed(0)}k</p>
                             </div>
                         </div>
                         <button

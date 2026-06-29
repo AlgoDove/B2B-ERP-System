@@ -1,13 +1,28 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Settings, LogOut, Users, Box, Building2 } from 'lucide-react';
+import { LayoutDashboard, Settings, LogOut, Box, Building2, BarChart3, DollarSign, Bell } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
-export default function Layout({ user, onLogout }) {
+export default function Layout({ user, onLogout, onRouteChange }) {
     const location = useLocation();
+    const [expandedMenu, setExpandedMenu] = useState(null);
 
-    const navItems = [
-        { label: 'Customers', path: '/', icon: Users },
-        ...(user?.role === 'admin' ? [{ label: 'Segment Rules', path: '/segments', icon: Settings }] : [])
-    ];
+    useEffect(() => {
+        if (onRouteChange) {
+            onRouteChange(location.pathname);
+        }
+    }, [location.pathname, onRouteChange]);
+
+    const navItems = user?.role === 'sales_staff' 
+        ? [
+            { label: 'Sales & Billing', path: '/sales', icon: LayoutDashboard },
+            { label: 'Business Analytics', path: '/analytics', icon: BarChart3 },
+            { label: 'Financial Management', path: '/financial', icon: DollarSign },
+            { label: 'Alerts & Insights', path: '/alerts', icon: Bell },
+          ]
+        : [
+            { label: 'Dashboard', path: '/', icon: LayoutDashboard },
+            { label: 'Segment Rules', path: '/segments', icon: Settings }
+          ];
 
     return (
         <div className="flex h-screen bg-[#F8FAFC] font-sans antialiased text-slate-800">
@@ -78,10 +93,20 @@ export default function Layout({ user, onLogout }) {
                 <header className="bg-white border-b border-slate-200 px-8 py-5 flex justify-between items-center shadow-sm z-0">
                     <div>
                         <h2 className="text-2xl font-black text-slate-800 tracking-tight">
-                            {location.pathname === '/' ? 'Customer Management' : 'Segment Rules Configuration'}
+                            {location.pathname === '/' && 'Dashboard'}
+                            {location.pathname === '/sales' && 'Sales & Billing'}
+                            {location.pathname === '/analytics' && 'Business Analytics'}
+                            {location.pathname === '/financial' && 'Financial Management'}
+                            {location.pathname === '/alerts' && 'Alerts & Insights'}
+                            {location.pathname === '/segments' && 'Segment Rules Configuration'}
                         </h2>
                         <p className="text-sm font-medium text-slate-500 mt-1">
-                            {location.pathname === '/' ? 'View and manage customer data and segmentation.' : 'Adjust global segment bounds and discount rules.'}
+                            {location.pathname === '/' && 'Monitor key business metrics and performance'}
+                            {location.pathname === '/sales' && 'Manage wholesale invoices, track payments, and process returns'}
+                            {location.pathname === '/analytics' && 'Performance metrics, sales trends, and data-driven insights'}
+                            {location.pathname === '/financial' && 'Track expenses, manage costs, and monitor profitability'}
+                            {location.pathname === '/alerts' && 'Monitor system alerts, track inventory warnings, and receive decision support'}
+                            {location.pathname === '/segments' && 'Adjust global segment bounds and discount rules'}
                         </p>
                     </div>
 

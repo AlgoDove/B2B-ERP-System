@@ -264,7 +264,7 @@ export default function InvoiceFormModal({ isOpen, onClose, onSubmit }) {
                                                 />
                                             </div>
                                             <div className="col-span-2 text-sm font-bold text-slate-800">
-                                                ₦{item.subtotal.toLocaleString()}
+                                                LKR {item.subtotal.toLocaleString()}
                                             </div>
                                             <div className="col-span-1 flex justify-center">
                                                 <button
@@ -307,7 +307,7 @@ export default function InvoiceFormModal({ isOpen, onClose, onSubmit }) {
                             </div>
                             <div>
                                 <label className={labelClass}>
-                                    Discount ({formData.discountType === 'Percentage' ? '%' : '₦'})
+                                    Discount ({formData.discountType === 'Percentage' ? '%' : 'LKR '})
                                 </label>
                                 <input
                                     type="number"
@@ -324,17 +324,17 @@ export default function InvoiceFormModal({ isOpen, onClose, onSubmit }) {
                         <div className="bg-gradient-to-br from-slate-50 to-blue-50/50 border border-slate-200 rounded-xl p-4 space-y-2.5">
                             <div className="flex justify-between items-center text-sm">
                                 <span className="text-slate-500 font-medium">Subtotal</span>
-                                <span className="font-semibold text-slate-800">₦{totals.subtotal.toLocaleString()}</span>
+                                <span className="font-semibold text-slate-800">LKR {totals.subtotal.toLocaleString()}</span>
                             </div>
                             {totals.discount > 0 && (
                                 <div className="flex justify-between items-center text-sm">
                                     <span className="text-slate-500 font-medium">Discount</span>
-                                    <span className="font-semibold text-emerald-600">−₦{totals.discount.toLocaleString()}</span>
+                                    <span className="font-semibold text-emerald-600">−LKR {totals.discount.toLocaleString()}</span>
                                 </div>
                             )}
                             <div className="flex justify-between items-center pt-2.5 border-t border-slate-200">
                                 <span className="text-base font-bold text-slate-800">Total</span>
-                                <span className="text-2xl font-black text-blue-600">₦{totals.total.toLocaleString()}</span>
+                                <span className="text-2xl font-black text-blue-600">LKR {totals.total.toLocaleString()}</span>
                             </div>
                         </div>
                     </div>

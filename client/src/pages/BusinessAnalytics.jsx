@@ -98,14 +98,14 @@ export default function BusinessAnalytics({ user }) {
                     <StatCard
                         icon={DollarSign}
                         label="Total Revenue"
-                        value={`₦${(metrics.totalRevenue / 1000).toFixed(0)}k`}
+                        value={`LKR ${(metrics.totalRevenue / 1000).toFixed(0)}k`}
                         change="+18.2%"
                         bgColor="bg-blue-600"
                     />
                     <StatCard
                         icon={TrendingUp}
                         label="Net Profit"
-                        value={`₦${(metrics.netProfit / 1000).toFixed(0)}k`}
+                        value={`LKR ${(metrics.netProfit / 1000).toFixed(0)}k`}
                         change={`${metrics.profitMargin}% margin`}
                         bgColor="bg-green-600"
                     />
@@ -119,7 +119,7 @@ export default function BusinessAnalytics({ user }) {
                     <StatCard
                         icon={ShoppingCart}
                         label="Avg Order Value"
-                        value={`₦${(metrics.avgOrderValue / 1000).toFixed(0)}k`}
+                        value={`LKR ${(metrics.avgOrderValue / 1000).toFixed(0)}k`}
                         change="+5.2%"
                         bgColor="bg-orange-600"
                     />
@@ -189,7 +189,7 @@ export default function BusinessAnalytics({ user }) {
                                             <span className="text-sm text-slate-600">{customer.type}</span>
                                         </td>
                                         <td className="px-4 py-3 text-right">
-                                            <span className="text-sm font-semibold text-slate-900">₦{(customer.revenue / 1000).toFixed(0)}k</span>
+                                            <span className="text-sm font-semibold text-slate-900">LKR {(customer.revenue / 1000).toFixed(0)}k</span>
                                         </td>
                                         <td className="px-4 py-3 text-right">
                                             <span className="text-sm font-semibold text-blue-600">{customer.percentage}%</span>
@@ -211,7 +211,7 @@ export default function BusinessAnalytics({ user }) {
                             <YAxis stroke="#64748b" />
                             <RechartsTooltip contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '8px', color: '#fff' }} />
                             <Legend />
-                            <Bar dataKey="sales" fill="#3b82f6" radius={[8, 8, 0, 0]} name="Sales (₦)" />
+                            <Bar dataKey="sales" fill="#3b82f6" radius={[8, 8, 0, 0]} name="Sales (LKR )" />
                             <Bar dataKey="orders" fill="#8b5cf6" radius={[8, 8, 0, 0]} name="Orders" />
                         </BarChart>
                     </ResponsiveContainer>

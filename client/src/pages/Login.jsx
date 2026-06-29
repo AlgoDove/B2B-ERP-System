@@ -17,7 +17,15 @@ export default function Login({ onLogin }) {
             const data = await loginCall({ username, password });
             onLogin(data);
         } catch (err) {
-            setError(err.response?.data?.message || 'Invalid credentials.');
+            // Better error handling
+            let errorMessage = 'Invalid credentials.';
+            if (err.response?.data?.message) {
+                errorMessage = err.response.data.message;
+            } else if (err.message === 'Network Error' || !err.response) {
+                errorMessage = 'Unable to connect to the server. Please check your internet connection.';
+            }
+            setError(errorMessage);
+            console.error('Login error:', err);
         } finally {
             setLoading(false);
         }

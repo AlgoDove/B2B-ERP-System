@@ -215,7 +215,7 @@ export default function FinancialManagement({ user }) {
                     <MetricCard
                         icon={DollarSign}
                         label="Total Revenue"
-                        value={`₦${(metrics.totalRevenue / 1000000).toFixed(2)}M`}
+                        value={`LKR ${(metrics.totalRevenue / 1000000).toFixed(2)}M`}
                         subtitle="Current month"
                         bgColor="bg-white border border-slate-200"
                         textColor="text-slate-900"
@@ -223,7 +223,7 @@ export default function FinancialManagement({ user }) {
                     <MetricCard
                         icon={TrendingDown}
                         label="Total Expenses"
-                        value={`₦${(metrics.totalExpenses / 1000000).toFixed(2)}M`}
+                        value={`LKR ${(metrics.totalExpenses / 1000000).toFixed(2)}M`}
                         subtitle="Operational costs"
                         bgColor="bg-white border border-slate-200"
                         textColor="text-red-600"
@@ -231,7 +231,7 @@ export default function FinancialManagement({ user }) {
                     <MetricCard
                         icon={PieChartIcon}
                         label="Net Profit"
-                        value={`₦${(metrics.netProfit / 1000000).toFixed(2)}M`}
+                        value={`LKR ${(metrics.netProfit / 1000000).toFixed(2)}M`}
                         subtitle={`~${metrics.profitMargin}% profit margin`}
                         bgColor="bg-green-500"
                         textColor="text-white"
@@ -291,7 +291,7 @@ export default function FinancialManagement({ user }) {
                                             <p className="text-xs text-slate-500">{expense.paymentMethod}</p>
                                         </td>
                                         <td className="px-4 py-3 text-right">
-                                            <span className="text-sm font-semibold text-red-600">-₦{expense.amount.toLocaleString()}</span>
+                                            <span className="text-sm font-semibold text-red-600">-LKR {expense.amount.toLocaleString()}</span>
                                         </td>
                                         <td className="px-4 py-3">
                                             <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(expense.status)}`}>
@@ -396,7 +396,7 @@ export default function FinancialManagement({ user }) {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-bold text-slate-700 mb-2">AMOUNT (₦) *</label>
+                                    <label className="block text-sm font-bold text-slate-700 mb-2">AMOUNT (LKR ) *</label>
                                     <input
                                         type="number"
                                         value={formData.amount}

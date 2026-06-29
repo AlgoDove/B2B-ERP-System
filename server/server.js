@@ -1,4 +1,8 @@
 require('dotenv').config();
+
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
+
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
@@ -17,9 +21,9 @@ app.use('/api', require('./routes/api'));
 
 // Root endpoint
 app.get('/', (req, res) => {
-    res.send('IT24101689 Customer Management API is running...');
+  res.send('IIT24101689 Customer Management API is running...');
 });
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server started on port ${PORT}`));

@@ -155,7 +155,7 @@ export default function SalesDashboard({ user }) {
 
     const handleExport = () => {
         const headers = ['Invoice ID', 'Customer', 'Date', 'Payment Method', 'Status', 'Amount'];
-        const rows = invoices.map(inv => [inv.id, inv.customer, inv.date, inv.paymentMethod, inv.status, `₦${inv.amount.toLocaleString()}`]);
+        const rows = invoices.map(inv => [inv.id, inv.customer, inv.date, inv.paymentMethod, inv.status, `LKR ${inv.amount.toLocaleString()}`]);
         const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
         const blob = new Blob([csv], { type: 'text/csv' });
         const url = URL.createObjectURL(blob);
@@ -253,7 +253,7 @@ export default function SalesDashboard({ user }) {
                             </div>
                             <div className="bg-blue-50 rounded-xl p-4 flex justify-between items-center">
                                 <span className="text-sm font-bold text-blue-800">Total Amount</span>
-                                <span className="text-2xl font-black text-blue-700">₦{selectedInvoice.amount.toLocaleString()}</span>
+                                <span className="text-2xl font-black text-blue-700">LKR {selectedInvoice.amount.toLocaleString()}</span>
                             </div>
                             <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
                                 <span className="text-sm font-medium text-slate-500">Status</span>
@@ -282,7 +282,7 @@ export default function SalesDashboard({ user }) {
                     icon={TrendingUp}
                     iconBg="bg-blue-100 text-blue-600"
                     label="Total Revenue"
-                    value={`₦${(metrics.totalRevenue / 1000).toFixed(0)}k`}
+                    value={`LKR ${(metrics.totalRevenue / 1000).toFixed(0)}k`}
                     sub="↑ 18.2% vs last month"
                     subColor="text-emerald-600 font-semibold"
                 />
@@ -297,7 +297,7 @@ export default function SalesDashboard({ user }) {
                     icon={Clock}
                     iconBg="bg-amber-100 text-amber-600"
                     label="Pending Payments"
-                    value={`₦${(metrics.pendingAmount / 1000).toFixed(0)}k`}
+                    value={`LKR ${(metrics.pendingAmount / 1000).toFixed(0)}k`}
                     sub="Follow up required"
                     subColor="text-amber-600"
                 />
@@ -305,7 +305,7 @@ export default function SalesDashboard({ user }) {
                     icon={DollarSign}
                     iconBg="bg-white/20"
                     label="Average Order Value"
-                    value={`₦${(metrics.avgOrderValue / 1000).toFixed(0)}k`}
+                    value={`LKR ${(metrics.avgOrderValue / 1000).toFixed(0)}k`}
                     sub="Per transaction"
                     gradient="bg-gradient-to-br from-blue-600 to-indigo-700 border-transparent"
                 />
@@ -423,7 +423,7 @@ export default function SalesDashboard({ user }) {
                                             <StatusBadge status={invoice.status} />
                                         </td>
                                         <td className="px-5 py-4 text-sm font-bold text-slate-900">
-                                            ₦{invoice.amount.toLocaleString()}
+                                            LKR {invoice.amount.toLocaleString()}
                                         </td>
                                         <td className="px-5 py-4">
                                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -516,10 +516,10 @@ export default function SalesDashboard({ user }) {
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
                                 <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={v => `₦${v / 1000}k`} />
+                                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={v => `LKR ${v / 1000}k`} />
                                 <RechartsTooltip
                                     contentStyle={{ backgroundColor: '#1e293b', border: 'none', borderRadius: '10px', color: '#fff', fontSize: '12px' }}
-                                    formatter={v => [`₦${v.toLocaleString()}`, 'Revenue']}
+                                    formatter={v => [`LKR ${v.toLocaleString()}`, 'Revenue']}
                                 />
                                 <Area type="monotone" dataKey="revenue" stroke="#3B82F6" strokeWidth={2.5} fill="url(#revGrad)" dot={{ fill: '#3B82F6', r: 4, strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 6 }} />
                             </AreaChart>
@@ -621,7 +621,7 @@ export default function SalesDashboard({ user }) {
                                         <td className="px-5 py-4 text-sm text-blue-600 font-semibold">{ret.invoiceRef}</td>
                                         <td className="px-5 py-4 text-sm text-slate-500">{ret.date}</td>
                                         <td className="px-5 py-4 text-sm text-slate-600 max-w-[200px] truncate">{ret.reason}</td>
-                                        <td className="px-5 py-4 text-sm font-bold text-slate-900">₦{ret.amount.toLocaleString()}</td>
+                                        <td className="px-5 py-4 text-sm font-bold text-slate-900">LKR {ret.amount.toLocaleString()}</td>
                                         <td className="px-5 py-4">
                                             <StatusBadge status={ret.status} />
                                         </td>
